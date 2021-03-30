@@ -29,3 +29,36 @@ fun Int.inverse() : Float = 1f / this
 fun Float.maxScale(i : Int, n : Int) : Float = Math.max(0f, this - i * n.inverse())
 fun Float.divideScale(i : Int, n : Int) : Float = Math.min(n.inverse(), maxScale(i, n)) * n
 fun Float.sinify() : Float = Math.sin(this * Math.PI).toFloat()
+
+fun Canvas.drawMultiLineShooter(scale : Float, w : Float, h : Float, paint : Paint) {
+    val size : Float = Math.min(w, h) / sizeFactor
+    val sf : Float = scale.sinify()
+    val sf1 : Float = sf.divideScale(0, parts)
+    val gap : Float = w / (2 * lines + 1)
+    var x : Float = gap
+    save()
+    translate(0f, h)
+    for (j in 0..(lines - 1)) {
+        var sfj1 : Float = 0f
+        if (j != 0) {
+            sfj1 = sf.divideScale(1+j, parts)
+        }
+        val sfj2 : Float = sf.divideScale(2 + j, parts)
+        x += 2 * gap * sfj1
+        save()
+        translate(x, -(h - size) * sfj2)
+        drawLine(0f, 0f, 0f, -size * sf1, paint)
+        restore()
+    }
+    restore()
+}
+
+fun Canvas.drawMLSNode(i : Int, scale : Float, paint : Paint) {
+    val w : Float = width.toFloat()
+    val h : Float = height.toFloat()
+    paint.color = colors[i]
+    paint.strokeCap = Paint.Cap.ROUND
+    paint.strokeWidth = Math.min(w, h) / strokeFactor
+    drawMultiLineShooter(scale, w, h, paint)
+}
+
