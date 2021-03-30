@@ -211,4 +211,13 @@ class MultiLineShooterView(ctx : Context) : View(ctx) {
             }
         }
     }
+
+    companion object {
+
+        fun create(activity : Activity) : MultiLineShooterView {
+            val view : MultiLineShooterView = MultiLineShooterView(activity)
+            activity.setContentView(view)
+            return view
+        }
+    }
 }
