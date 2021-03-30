@@ -1,0 +1,3 @@
+include ':multilineshooterview'
+include ':app'
+rootProject.name = "LinkedMultiLineShooterView"
